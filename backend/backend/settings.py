@@ -167,7 +167,7 @@ REST_FRAMEWORK = {
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    # "https://petcarex.onrender.com/",
+    "https://petcarex.onrender.com/",
     "http://localhost:5173", 
 ]
 

@@ -8,7 +8,7 @@ const Signup = () => {
   const [formError, setFormError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setsuccessMsg] = useState('');
-  const baseUrl = 'http://127.0.0.1:8000/api/';
+  const baseUrl = 'http://petcarex-backend.onrender.com/api/';
 
   const [registerFormData, setRegisterFormData] = useState({
     "name": '',

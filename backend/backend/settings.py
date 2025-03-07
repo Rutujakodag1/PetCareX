@@ -163,7 +163,7 @@ REST_FRAMEWORK = {
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Add your frontend's origin
+    "https://petcarex.onrender.com/",
 ]
 
 MEDIA_URL = '/media/'

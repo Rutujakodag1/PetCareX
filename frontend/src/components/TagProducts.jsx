@@ -9,7 +9,7 @@ import {Link, useParams} from 'react-router-dom';
 
 const TagProducts = () => {
 
-  const baseUrl = 'http://127.0.0.1:8000/api'
+  const baseUrl = 'http://petcarex-backend.onrender.com/api'
   const [products, setProducts] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const {tag} = useParams();

@@ -10,7 +10,7 @@ const PetCategories = () => {
   // const location = useLocation();
   // const products = location.state?.products;
 
-  const baseUrl = 'http://127.0.0.1:8000/api'
+  const baseUrl = 'http://petcarex-backend.onrender.com/api'
   const [categories, setCategories] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
 

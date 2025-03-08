@@ -167,8 +167,8 @@ REST_FRAMEWORK = {
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://petcarex.onrender.com/",
-    "http://localhost:5173", 
+    "https://petcarex.onrender.com",
+    # "http://localhost:5173", 
 ]
 
 MEDIA_URL = '/media/'

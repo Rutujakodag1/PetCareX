@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv("postgresql://pet_care_m2qu_user:wVRMC9ZupGLkEd8hhXFlrLxtdnnuKcB2@dpg-cv4427rqf0us73b5af70-a/pet_care_m2qu"),
+        default=os.getenv("DATABASE_URL"),
         conn_max_age=600,
         ssl_require=True,  # Ensure SSL connection
     )
@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-z!n$46zqm++9c6oud+uanku*091ju(#7ujut_^*$mj4#$x_t1c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['petcarex.onrender.com','localhost']
 
 
 # Application definition

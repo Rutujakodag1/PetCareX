@@ -9,7 +9,7 @@ import {Link, useParams} from 'react-router-dom';
 
 const TagProducts = () => {
 
-  const baseUrl = 'http://petcarex-backend.onrender.com/api'
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [products, setProducts] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const {tag} = useParams();

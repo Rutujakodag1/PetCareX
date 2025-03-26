@@ -10,7 +10,7 @@ const AllProducts = () => {
   // const location = useLocation();
   // const products = location.state?.products;
 
-  const baseUrl = 'http://petcarex-backend.onrender.com/api'
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [products, setProducts] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
 

@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SingleRelatedProduct from "./SingleRelatedProduct";
 const ProductDetail = () => {
-    const baseUrl = 'http://petcarex-backend.onrender.com/api'
+    const baseUrl = import.meta.env.VITE_API_URL;
     const [productData, setproductData] = useState([]);
     const [productImgs, setproductImgs] = useState([]);
     const [productTags, setproductTags] = useState([]);

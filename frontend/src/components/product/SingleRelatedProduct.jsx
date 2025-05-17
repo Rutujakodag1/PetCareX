@@ -1,21 +1,23 @@
 import React from 'react';
 import { FaCartPlus, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-const SingleProduct = ({ product }) => {
+import logo from '../../assets/react.svg';
+
+const SingleRelatedProduct = ({ product }) => {
   return (
     
     <div className="p-4 bg-white shadow-lg rounded-lg hover:shadow-xl transition">
       {/* Product Image */}
       <Link to={`/product/${product.title}/${product.id}`}>
       <img
-        src={product.image || 'https://cdn.stocksnap.io/img-thumbs/280h/dog-animal_DOTORLBDD7.jpg'} // Fallback to placeholder image
+        src={product.image || logo} // Fallback to placeholder image
         alt={product.title}
         className="w-full h-40 object-cover rounded-md mb-4"
       />
     </Link>
       {/* Product Details */}
       <h3 className="text-lg font-bold mb-2 truncate">{product.title}</h3>
-      <p className="text-gray-500 text-sm">{product.category || 'General'}</p>
+      <p className="text-gray-500 text-sm">{product.category?.title || 'General'}</p>
       <p className="text-lg font-semibold text-blue-500 mt-2">${product.price}</p>
 
       {/* Action Buttons */}
@@ -37,4 +39,4 @@ const SingleProduct = ({ product }) => {
   );
 };
 
-export default SingleProduct;
+export default SingleRelatedProduct;

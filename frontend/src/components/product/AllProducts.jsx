@@ -13,9 +13,16 @@ const AllProducts = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
   const [products, setProducts] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50); // 50ms delay to wait for layout
+    return () => clearTimeout(timer);
+  }, []);
+
 
   useEffect(() =>{
-    fetchData(baseUrl+'/products');
+    fetchData(baseUrl+'/products/');
   },[]);
 
   function fetchData(baseurl) {

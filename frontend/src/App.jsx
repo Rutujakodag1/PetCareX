@@ -2,11 +2,11 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
-import Navbar from './components/Navbar'
+import Navbar from './components/layout/Navbar'
 // import ContactForm from './components/ContactForm'
 import ContactUs from './components/pages/ContactForm'
 import {BrowserRouter as Router ,Routes,Route} from 'react-router-dom';
-import Footer from './components/Footer';
+import Footer from './components/layout/Footer';
 import Login from './components/pages/Login';
 import CustomerLogout from './components/pages/CustomerLogout';
 import Home from './components/Home';
@@ -20,28 +20,29 @@ import PetCareBlog from './components/PetBlogs';
 import PetService from './components/PetServices';
 import ProductReview from './components/ReviewRatings';
 import UserDashboard from './components/Dashboard';
-import OrderSuccess from './components/OrderSuccess';
-import OrderFailure from './components/OrderFailure';
-import Orders from './components/Orders';
+import OrderSuccess from './components/order/OrderSuccess';
+import OrderFailure from './components/order/OrderFailure';
+import Orders from './components/order/Orders';
 import Wishlist from './components/Wishlist';
 import Profile from './components/Profile';
 import SellerDashboard from './components/SellerDashboard';
-import AllProducts from './components/AllProducts';
-import LatestProduct from './components/LatestProduct';
-import CategoryProducts from './components/CategoryProducts';
+import AllProducts from './components/product/AllProducts';
+import LatestProduct from './components/product/LatestProduct';
+import CategoryProducts from './components/product/CategoryProducts';
 import PetCategories from './components/PetCategories';
-import ProductDetail from './components/ProductDetail';
+import ProductDetail from './components/product/ProductDetail';
 // import CategoryProduct from './components/CategoryProducts';
 // import Categories from './components/Categories';
-import TagProducts from './components/TagProducts';
+import TagProducts from './components/product/TagProducts';
+import ScrollToTop from './ScrollToTop';
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
     <>
     
-    
-    <Router >
+    <ScrollToTop />
+    {/* <Router > */}
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} /> {/* Home Page */}
@@ -82,7 +83,7 @@ function App() {
 
       </Routes>
       <Footer />
-    </Router>
+    {/* </Router> */}
     {/* <h1>Vite + React</h1> */}
       {/* <div>
         <a href="https://vite.dev" target="_blank">
@@ -104,6 +105,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p> */}
+      {/* </ScrollToTop> */}
     </>
   )
 }

@@ -112,32 +112,32 @@ def customer_login(request):
 
 @csrf_exempt
 def customer_register(request):
-    name = request.POST.get('name')
-    email = request.POST.get('email')
-    mobile = request.POST.get('mobile')
-    password = request.POST.get('password')
-    user = User.objects.create(
-        name = name,
-        email = email,
-        mobile = mobile,
-        password = password,
-    )
-    if user:
-        customer = models.Customer.objects.create(
-            user = user,
-            mobile = mobile
+    if request.method == "POST":
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        # mobile = request.POST.get('mobile')
+        password = request.POST.get('password')
+        # Check if user already exists
+        if User.objects.filter(email=email).exists():
+                return JsonResponse({'bool': False, 'msg': 'Email already registered'})
+
+        user = User.objects.create_user(
+            username=email,
+            email = email,
+            # mobile = mobile,
+            password = password,
         )
-        msg = {
-            'bool' : True,
-            'user' : user.id,
-            'customer' : customer.id
-        }
-    else:
-        msg = {
-            'bool' : False,
-            'msg' : 'oops... Something went wrong!!'
-        }
-    return JsonResponse(msg)
+        user.save()
+        customer = models.Customer.objects.create(
+                user = user,
+                # mobile = mobile
+            )
+        return JsonResponse({
+                'bool': True,
+                'user': user.id,
+                'customer': customer.id
+            })
+    return JsonResponse({'bool': False, 'msg': 'Invalid request method'})
 
 
 class OrderDetail(generics.ListAPIView):
@@ -165,3 +165,12 @@ class CategoryList(generics.ListCreateAPIView):
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.ProductCategory.objects.all()
     serializer_class = serializers.CategoryDetailSerializer
+
+
+from .serializers import ProductListSerializer
+from .models import Product
+class LatestProductsView(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        return Product.objects.order_by('-created_at')[:10]  # latest 10 products

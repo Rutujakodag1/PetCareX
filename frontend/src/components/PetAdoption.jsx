@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from '../assets/react.svg';
 
 const PetAdoption = ({ theme }) => {
   const [pets, setPets] = useState([]);
@@ -45,7 +46,7 @@ const PetAdoption = ({ theme }) => {
             }`}
           >
             <img
-              src={pet.image}
+              src={logo}
               alt={pet.name}
               className="w-full h-40 object-cover rounded"
             />
@@ -76,7 +77,7 @@ const PetAdoption = ({ theme }) => {
               ×
             </button>
             <img
-              src={selectedPet.image}
+              src={logo}
               alt={selectedPet.name}
               className="w-1/2 mx-auto rounded-lg"
             />

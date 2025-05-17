@@ -1,7 +1,10 @@
 import React from "react";
-
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import '../../index.css';
 const FilterSidebar = ({
   theme,
+  categories,
   selectedCategories,
   priceRange,
   handleCategoryChange,
@@ -15,32 +18,38 @@ const FilterSidebar = ({
       <div className="mb-4">
         <h3 className="text-lg font-medium">Category</h3>
         <ul className="mt-2">
-          {['Food', 'Toys', 'Accessories'].map((category) => (
-            <li className="mt-1" key={category}>
-              <input
-                type="checkbox"
-                id={category}
-                checked={selectedCategories[category]}
-                onChange={() => handleCategoryChange(category)}
-              />
-              <label htmlFor={category} className="ml-2">{category}</label>
-            </li>
-          ))}
+          {Array.isArray(categories) &&
+            categories.map((category) => (
+              <li className="mt-1" key={category.id}>
+                <input
+                  type="checkbox"
+                  id={`category-${category.id}`}
+                  checked={selectedCategories[category.title] || false}
+                  onChange={() => handleCategoryChange(category.title)}
+                />
+                <label htmlFor={`category-${category.id}`} className="ml-2">
+                  {category.title}
+                </label>
+              </li>
+            ))}
         </ul>
       </div>
 
       {/* Price Range */}
-      <div className="mb-4">
-        <h3 className="text-lg font-medium">Price Range</h3>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={priceRange[1]}
-          onChange={handlePriceChange}
-          className="w-full mt-2"
-        />
-        <div className="flex justify-between text-sm">
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Price Range</h3>
+
+        <div className="px-2">
+          <Slider
+            range
+            min={0}
+            max={1000}
+            defaultValue={[100, 500]}
+            onChange={handlePriceChange}
+          />
+        </div>
+
+        <div className="flex justify-between text-sm mt-2 px-2">
           <span>${priceRange[0]}</span>
           <span>${priceRange[1]}</span>
         </div>

@@ -21,13 +21,13 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True,  # Ensure SSL connection
-    )
-}
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.getenv("DATABASE_URL"),
+#         conn_max_age=600,
+#         ssl_require=True,  # Ensure SSL connection
+#     )
+# }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -38,8 +38,7 @@ SECRET_KEY = 'django-insecure-z!n$46zqm++9c6oud+uanku*091ju(#7ujut_^*$mj4#$x_t1c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['smart-petcare.vercel.app','petcarex-backend.onrender.com','localhost']
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -96,15 +95,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pet_care',
-#         'USER' : 'postgres',
-#         'PASSWORD' : 'root',
-#         'HOST' : 'localhost',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pet_care',
+        'USER' : 'postgres',
+        'PASSWORD' : 'root',
+        'HOST' : 'localhost',
+        'PORT': '5432', 
+    }
+}
 
 
 # Password validation
@@ -167,7 +167,7 @@ REST_FRAMEWORK = {
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://smart-petcare.vercel.app",
+    # "https://smart-petcare.vercel.app",
     "http://localhost:5173", 
 ]
 

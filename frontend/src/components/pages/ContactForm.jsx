@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const ContactUs = () => {
+  const [statusMessage, setStatusMessage] = useState('');
+
+  // Function to send email using emailjs
+  function sendEmail(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    emailjs.sendForm('service_uvz0vvk', 'template_l4zmtph', e.target, '6grf2-XKC5Z5HunXZ')
+      .then((result) => {
+          // Display success message and reset the form
+          setStatusMessage('Your message has been sent successfully!');
+          e.target.reset();  // Reset the form fields after successful submission
+      }, (error) => {
+          // Display error message
+          setStatusMessage('There was an error sending your message. Please try again later.');
+          console.log(error.text); // Logs any errors to the console
+      });
+  }
+
   return (
     <div className="bg-gradient-to-b from-gray-100 to-gray-300 min-h-screen">
       <div className="max-w-7xl mx-auto p-6">
@@ -16,7 +35,8 @@ const ContactUs = () => {
           {/* Contact Form */}
           <div className="w-full md:w-1/2">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Send Us a Message</h2>
-            <form className="bg-white shadow-md rounded-lg p-6 space-y-4">
+            <form className="bg-white shadow-md rounded-lg p-6 space-y-4"
+            onSubmit={sendEmail}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Name
@@ -24,6 +44,7 @@ const ContactUs = () => {
                 <input
                   type="text"
                   id="name"
+                  name='from_name'
                   className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300"
                   placeholder="Your Name"
                   required
@@ -36,6 +57,7 @@ const ContactUs = () => {
                 <input
                   type="email"
                   id="email"
+                  name='from_email'
                   className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300"
                   placeholder="you@example.com"
                   required
@@ -48,6 +70,7 @@ const ContactUs = () => {
                 <textarea
                   id="message"
                   rows="5"
+                  name='html_message'
                   className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300"
                   placeholder="Write your message here..."
                   required
@@ -60,6 +83,16 @@ const ContactUs = () => {
                 Send Message
               </button>
             </form>
+            {/* Display success or error message */}
+            {statusMessage && (
+              <div
+                className={`mt-4 p-4 text-center rounded-md ${
+                  statusMessage.includes("successfully") ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                }`}
+              >
+                {statusMessage}
+              </div>
+            )}
           </div>
 
           {/* Contact Info */}

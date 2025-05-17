@@ -1,6 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* override track */
+.rc-slider-track {
+  @apply bg-blue-500 h-[6px];
+}
+
+/* override rail */
+.rc-slider-rail {
+  @apply bg-gray-300 h-[6px];
+}
+
+/* override handle */
+.rc-slider-handle {
+  @apply border-blue-500 bg-blue-500 h-5 w-5 -mt-[7px] border-2;
+}
+
+/* for dark mode handle */
+.dark .rc-slider-handle {
+  @apply bg-white border-blue-500;
+}
 /* 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -70,3 +90,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   } */
 }
+
+

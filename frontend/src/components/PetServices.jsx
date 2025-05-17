@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from '../assets/react.svg';
 
 const PetService = ({ theme }) => {
   const services = [
@@ -58,7 +59,7 @@ const PetService = ({ theme }) => {
             }`}
           >
             <img
-              src={service.image}
+              src={logo}
               alt={service.title}
               className="w-full h-40 object-cover rounded-md"
             />
@@ -89,7 +90,7 @@ const PetService = ({ theme }) => {
               ×
             </button>
             <img
-              src={selectedService.image}
+              src={logo}
               alt={selectedService.title}
               className="w-full h-64 object-cover rounded-md"
             />

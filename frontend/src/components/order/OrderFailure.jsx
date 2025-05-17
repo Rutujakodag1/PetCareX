@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import failure from '../assets/failure.png';
+import failure from '../../assets/failure.png';
 
 
 const OrderFailure = ({ theme }) => {

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../../ThemeContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter} from '@fortawesome/free-brands-svg-icons';
 const Footer = () => {

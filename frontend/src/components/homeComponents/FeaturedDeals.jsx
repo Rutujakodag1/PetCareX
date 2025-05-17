@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from '../../assets/react.svg';
 
 const FeaturedDeals = ({ featuredDeals, theme }) => {
   const [countdowns, setCountdowns] = useState([]);
@@ -51,7 +52,7 @@ const FeaturedDeals = ({ featuredDeals, theme }) => {
         style={{ minWidth: "250px" }}
       >
         <img
-          src={deal.image}
+          src={logo}
           alt={deal.name}
           className="w-full h-40 object-cover rounded-t-lg transition-all duration-500 hover:opacity-90"
         />

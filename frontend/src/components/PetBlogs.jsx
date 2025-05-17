@@ -1,4 +1,5 @@
 import React from "react";
+import logo from '../assets/react.svg';
 
 const PetCareBlog = ({ theme }) => {
   const articles = [
@@ -53,7 +54,7 @@ const PetCareBlog = ({ theme }) => {
             onClick={() => handleViewArticle(article)}
           >
             <img
-              src={article.image}
+              src={logo}
               alt={article.title}
               className="w-full h-40 object-cover rounded-md"
             />

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import success from '../assets/success.png';
+import success from '../../assets/success.png';
 
 const OrderSuccess = ({ theme }) => {
   const navigate = useNavigate();

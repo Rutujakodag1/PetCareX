@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import logo from '../../assets/react.svg';
 
 const PetProfile = ({ theme }) => {
   // State to hold pet details
@@ -16,7 +17,7 @@ const PetProfile = ({ theme }) => {
     breed: pet.breed,
     age: pet.age,
     description: pet.description,
-    image: pet.image
+    image: logo
   });
 
   // State to handle form submission status
@@ -34,7 +35,7 @@ const PetProfile = ({ theme }) => {
         breed: data.breed,
         age: data.age,
         description: data.description,
-        image: data.image
+        image:logo
       });
     };
     fetchPetDetails();
@@ -90,7 +91,7 @@ const PetProfile = ({ theme }) => {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Pet Profile</h2>
           <img
-            src={formData.image || 'https://cdn.stocksnap.io/img-thumbs/280h/dog-animal_DOTORLBDD7.jpg'}
+            src={logo}
             alt={formData.name}
             className="w-32 h-32 rounded-full mx-auto mt-4 object-cover"
           />

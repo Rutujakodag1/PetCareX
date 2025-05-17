@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from '../../assets/react.svg';
 
 const Banner = ({ banners, bannerOverlayClass }) => {
   const [currentBanner, setCurrentBanner] = useState(0);
@@ -21,7 +22,7 @@ const Banner = ({ banners, bannerOverlayClass }) => {
           }`}
         >
           <img
-            src={banner.image}
+            src={logo}
             alt={banner.text}
             className="w-full h-full object-cover"
           />

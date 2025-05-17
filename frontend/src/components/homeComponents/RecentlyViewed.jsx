@@ -1,32 +1,23 @@
 import React from "react";
+import logo from '../../assets/react.svg';
 
 const RecentlyViewed = ({ recentlyViewed, theme }) => {
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Recently Viewed Items</h2>
-      {recentlyViewed.length > 0 ? (
-        <div className="flex gap-4 overflow-x-auto">
-          {recentlyViewed.map((item) => (
-            <div
-              key={item.id}
-              className={`min-w-[200px] max-w-[200px] p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-                theme === "dark"
-                  ? "bg-gray-800 text-white "
-                  : "bg-white text-gray-800 "
-              }`}
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-[150px] object-cover rounded-md"
-              />
-              <h3 className="text-lg font-semibold mt-2">{item.name}</h3>
+    <div className="mt-10 px-4">
+      <h2 className="text-2xl font-bold mb-4">Recently Viewed</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {recentlyViewed.length === 0 ? (
+          <p>No products viewed yet.</p>
+        ) : (
+          recentlyViewed.map((product) => (
+            <div key={product.id} className={`p-4 rounded shadow-md`}>
+              <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-2" />
+              <h3 className="text-lg font-semibold">{product.title}</h3>
+              <p>₹{product.price}</p>
             </div>
-          ))}
-        </div>
-      ) : (
-        <p className="text-gray-600">No recently viewed items.</p>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 };

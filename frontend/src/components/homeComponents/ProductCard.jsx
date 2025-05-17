@@ -1,5 +1,5 @@
 import React from "react";
-
+import logo from '../../assets/react.svg';
 const ProductCard = ({ product, handleViewProduct, buttonClass, theme }) => {
   // Conditionally set card background color based on theme
   const cardBackgroundClass = theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800";
@@ -11,7 +11,7 @@ const ProductCard = ({ product, handleViewProduct, buttonClass, theme }) => {
       onClick={() => handleViewProduct(product)}
     >
       <img
-        src={product.image}
+        src={logo}
         alt={product.name}
         className="w-full h-40 object-cover rounded"
       />

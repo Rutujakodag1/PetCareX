@@ -8,12 +8,12 @@ const Signup = () => {
   const [formError, setFormError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setsuccessMsg] = useState('');
-  const baseUrl = 'http://petcarex-backend.onrender.com/api/';
+  const baseUrl =import.meta.env.VITE_API_URL;
 
   const [registerFormData, setRegisterFormData] = useState({
-    "name": '',
+    "username": '',
     "email": '',
-    "mobile": '',
+    // "mobile": '',
     "password": ''
   });
 
@@ -24,35 +24,35 @@ const Signup = () => {
     })
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async () => {
     const formData = new FormData();
-
-    formData.append('name', registerFormData.name);
+    formData.append('username', registerFormData.username);
     formData.append('email', registerFormData.email);
-    formData.append('mobile', registerFormData.mobile);
+    // formData.append('mobile', registerFormData.mobile);
     formData.append('password', registerFormData.password);
-
-    axios.post(baseUrl + 'customer/login/', formData)
-      .then(function (response) {
-        if (response.data.bool == false) {
-          setFormError(true);
-          setErrorMsg(response.data.msg)
-        } else {
-          setRegisterFormData({
-            "name": '',
-            "email": '',
-            "mobile": '',
-            "password": ''
+  
+    try {
+      const response = await axios.post(baseUrl + '/customer/register/', formData);
+      if (response.data.bool === false) {
+        setFormError(true);
+        setErrorMsg(response.data.msg);
+      } else {
+        setRegisterFormData({
+          username: '',
+          email: '',
+          // mobile: '',
+          password: ''
         });
-          setFormError(false);
-          setsuccessMsg('Thank you for registration... You can login now')
-        }
-
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        setFormError(false);
+        setsuccessMsg('Thank you for registration... You can login now');
+      }
+    } catch (error) {
+      console.error(error);
+      setFormError(true);
+      setErrorMsg("Something went wrong. Please try again.");
+    }
   };
+  
 
   const checkCustomer = localStorage.getItem('customer_login');
   if (checkCustomer) {
@@ -60,7 +60,7 @@ const Signup = () => {
   }
 
 
-  const buttonEnable = (registerFormData.name != '') && (registerFormData.email != '') && (registerFormData.mobile != '') && (registerFormData.password != '')
+  const buttonEnable = (registerFormData.username != '') && (registerFormData.email != '') && (registerFormData.mobile != '') && (registerFormData.password != '')
 
 
   return (
@@ -70,18 +70,19 @@ const Signup = () => {
         <p>
           <span className="font-bold">Note</span>: All fields are required
         </p>
-        {successMsg && <p>successMsg</p>}
+        {successMsg && <p className="text-green-500">{successMsg}</p>}
+{formError && <p className="text-red-500">{errorMsg}</p>}
         <form className="space-y-4">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block mb-1">Name</label>
+            <label htmlFor="username" className="block mb-1">Username</label>
             <input
               type="text"
-              name='name'
-              id="name"
+              name='username'
+              id="username"
               onChange={inputHandler}
-              value={registerFormData.name}
-              placeholder="Enter your name"
+              value={registerFormData.username}
+              placeholder="Enter username"
               className="w-full px-4 py-2 rounded-lg shadow-sm border focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
             />
           </div>
@@ -98,7 +99,7 @@ const Signup = () => {
               className="w-full px-4 py-2 rounded-lg shadow-sm border focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="mobile" className="block mb-1">Mobile</label>
             <input
               type="number"
@@ -109,7 +110,7 @@ const Signup = () => {
               placeholder="Enter your email"
               className="w-full px-4 py-2 rounded-lg shadow-sm border focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-white"
             />
-          </div>
+          </div> */}
           {/* Password */}
           <div>
             <label htmlFor="password" className="block mb-1">Password</label>

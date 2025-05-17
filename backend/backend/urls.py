@@ -31,6 +31,13 @@ urlpatterns = [
     path('api-auth/',include('rest_framework.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
+    # re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
+]
+# ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
-] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
+]

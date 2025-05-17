@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../ThemeContext';
 import axios from 'axios';
 const Login = () => {
-  const baseUrl = 'http://petcarex-backend.onrender.com/api/';
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [formError, setFormError]= useState(false);
   const [errorMsg, setErrorMsg] = useState('');
  
@@ -28,7 +28,7 @@ const Login = () => {
     formData.append('username', loginFormData.username);
     formData.append('password', loginFormData.password);
     
-    axios.post(baseUrl+'customer/login/',formData)
+    axios.post(baseUrl+'/customer/login/',formData)
     .then(function(response){
       if(response.data.bool==false){
         setFormError(true);

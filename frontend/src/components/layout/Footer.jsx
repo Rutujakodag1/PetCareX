@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
         <li className="flex space-x-4">
           <a
-            href="/customer/logout"
+            href="/logout"
             className={`block text-lg font-medium ${linkHoverClass}`}
           >
             logout

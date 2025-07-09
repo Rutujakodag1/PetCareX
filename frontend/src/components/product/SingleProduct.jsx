@@ -52,21 +52,3 @@ const SingleProduct = ({ product, onViewProduct }) => {
 
 export default SingleProduct;
 
-
-// {productData.product_imgs?.length > 0 && (
-//             <div className="flex gap-2 mt-4 overflow-x-auto py-2">
-//                 {productData.product_imgs.map((img, index) => (
-//                     <div key={img.id} className="w-16 h-16 bg-gray-100 flex items-center justify-center rounded">
-//                         <img
-//                             src={img.image}
-//                             alt={`Thumbnail ${index + 1}`}
-//                             className="max-w-full max-h-full object-cover cursor-pointer"
-//                             onError={(e) => {
-//                                 e.target.src = logo;
-//                                 e.target.className = "h-8 object-contain";
-//                             }}
-//                         />
-//                     </div>
-//                 ))}
-//             </div>
-//         )}

@@ -14,9 +14,11 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("customer_login"); // Use correct key
+    const token = localStorage.getItem("token"); // Use correct key
     setIsAuthenticated(!!token);
-  }, [localStorage.getItem("customer_login")]);
+  }, []);
+
+
   return (
     <header className={`w-full shadow-md ${bgClass}`}>
       <div className="py-4 px-6 border-b border-gray-300">
@@ -44,19 +46,25 @@ const Navbar = () => {
               onClick={toggleTheme}
               className="px-2 py-1 text-lg font-medium text-gray-800 rounded-lg border border-gray-500 dark:text-white hover:text-blue-500"
             >
-              {theme === 'dark' ? '🌙 Dark Mode' : '🌞 Light Mode'}
+              {theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode'}
             </button>
-            
+
             {isAuthenticated ? (
               <a
-                href="/customer/logout"
+                href="#"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("role");
+                  setIsAuthenticated(false);
+                  window.location.href = "/login";
+                }}
                 className={`py-1 px-3 block text-lg font-medium rounded-lg border border-gray-500 hover:bg-gray-200 hover:text-gray-800`}
               >
                 <FontAwesomeIcon icon={faUser} className="mr-2" />
                 logout
               </a>
             ) : (
-              <a href="/customer/login" className="px-4 py-2 rounded-lg border font-medium border-gray-500 hover:bg-gray-600">
+              <a href="/login" className="px-4 py-2 rounded-lg border font-medium border-gray-500 hover:bg-gray-600">
                 <FontAwesomeIcon icon={faUser} className="mr-2" />
                 Login/Sign Up
               </a>

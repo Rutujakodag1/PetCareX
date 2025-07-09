@@ -1,13 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 
 # Create your models here.
 class Seller(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     address = models.TextField(null = True)
-
+    mobile = models.CharField(max_length=20, blank=True)
+    business_name = models.CharField(max_length=255, blank=True)
+    bank_account = models.CharField(max_length=50, blank=True)
+    
     def __str__(self):
-        return self.user.username
+        return self.business_name or self.user.username
 
 class ProductCategory(models.Model):
     title = models.CharField(max_length=200)
@@ -17,15 +21,16 @@ class ProductCategory(models.Model):
         return self.title 
 
 class Product(models.Model):
-    category = models.ForeignKey(ProductCategory,on_delete=models.SET_NULL,null=True,related_name='category_product')
+    category = models.ForeignKey(ProductCategory,on_delete=models.PROTECT,null=True,related_name='category_product')
     seller = models.ForeignKey(Seller,on_delete=models.SET_NULL,null=True)
     title = models.CharField(max_length=200)
-    slug = models.CharField(max_length=300,unique=True,null=True)
+    slug = models.CharField(max_length=300,unique=True,null=True,blank= True)
     detail = models.TextField(null=True)
     price = models.FloatField()
     tags = models.TextField(null=True)
     image = models.ImageField(upload_to='product_imgs/',null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    stock = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title    
@@ -35,10 +40,13 @@ class Product(models.Model):
         if self.tags:
             return self.tags.split(',')
         return []  # Return an empty list if tags is None
-    
+
+
+
 class Customer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    # mobile = models.PositiveBigIntegerField()
+    mobile = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
 
     def __str__(self):
         return self.user.username
@@ -47,23 +55,23 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='customer_orders')
     order_time = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
-        return '%s' % (self.order_time)
+    def __str__(self):
+        return f"Order #{self.id} at {self.order_time}"
 
 class OrderItems(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name='order_items')
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.product.title
+        return f"{self.order.id} - {self.product.title}"
     
-class CustomerAddress(models.Model):
-    customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='customer_address')
-    address = models.TextField()
-    default_address = models.BooleanField(default=False)
+# class CustomerAddress(models.Model):
+#     customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='customer_address')
+#     address = models.TextField()
+#     default_address = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.address
+#     def __str__(self):
+#         return self.address
     
 class ProductRating(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='rating_customers')

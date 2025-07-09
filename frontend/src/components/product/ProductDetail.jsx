@@ -24,13 +24,13 @@ const ProductDetail = () => {
             try {
                 setLoading(true);
                 // Fetch product data
-                const productResponse = await fetch(`${baseUrl}/product/${product_id}`);
+                const productResponse = await fetch(`${baseUrl}/product/${product_id}/`);
                 const productData = await productResponse.json();
                 setproductData(productData);
                 setCurrentImage(productData.image); // Set main image
 
                 // Fetch related products
-                const relatedResponse = await fetch(`${baseUrl}/related-products/${product_id}`);
+                const relatedResponse = await fetch(`${baseUrl}/related-products/${product_id}/`);
                 const relatedData = await relatedResponse.json();
                 setrelatedProducts(relatedData.results || []);
 

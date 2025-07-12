@@ -64,6 +64,18 @@ class ProductListSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super(ProductListSerializer,self).__init__(*args, **kwargs)
         self.Meta.depth=1
+    
+    def create(self, validated_data):
+        # Create the product instance
+        product = models.Product.objects.create(**validated_data)
+
+        # Handle extra uploaded images if present
+        request = self.context.get('request')
+        if request and request.FILES:
+            for img in request.FILES.getlist('product_imgs'):
+                models.ProductImage.objects.create(product=product, image=img)
+
+        return product
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     product_ratings=serializers.StringRelatedField(many=True, read_only=True)
@@ -143,3 +155,14 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         super(CategoryDetailSerializer,self).__init__(*args, **kwargs)
         # self.Meta.depth=1
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        if hasattr(user, 'seller'):
+            token['seller_id'] = user.seller.id
+        elif hasattr(user, 'customer'):
+            token['customer_id'] = user.customer.id
+        return token

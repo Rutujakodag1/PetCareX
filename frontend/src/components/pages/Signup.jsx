@@ -94,8 +94,8 @@ const Signup = () => {
 
 
   useEffect(() => {
-  const token = localStorage.getItem("token");
-  setIsAuthenticated(!!token);
+  const access = localStorage.getItem("access");
+  setIsAuthenticated(!!access);
 }, []);
 
 

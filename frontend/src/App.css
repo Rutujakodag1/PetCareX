@@ -10,6 +10,9 @@
   color: #333; /* Adjust text color for contrast */
 }
 
+.table-container {
+  overflow-x: auto;
+}
 
 /* 
 .logo {

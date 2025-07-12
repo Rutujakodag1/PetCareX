@@ -37,7 +37,7 @@ const Login = () => {
         setErrorMsg(response.data.msg);
       } else {
         // ✅ Save JWT + role
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         localStorage.setItem('role', loginFormData.role);
         localStorage.setItem('username', response.data.username);

@@ -14,7 +14,7 @@ export const refresh = async () => {
     });
 
     const newAccess = response.data.access;
-    localStorage.setItem('token', newAccess);
+    localStorage.setItem('access', newAccess);
     return newAccess;
 
   } catch (err) {

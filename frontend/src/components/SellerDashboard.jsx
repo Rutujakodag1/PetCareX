@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { refresh } from '../utils/auth';
 
@@ -54,11 +54,11 @@ const Products = () => {
 
 
     try {
-      let token = localStorage.getItem('token');
+      let access = localStorage.getItem('access');
 
       const response = await axios.get(`${baseUrl}/seller/products/`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access}`,
         },
       });
 
@@ -120,13 +120,15 @@ const Products = () => {
               <td className="py-2 px-4">{product.tags}</td>
               <td className="py-2 px-4">{product.detail}</td>
               <td className="py-2 px-4">
-                {product.product_imgs && product.product_imgs.length > 0 && (
-                  <img
-                    src={`${baseUrl}${product.product_imgs[0].image}`}
-                    alt={product.title}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                )}
+                {product.image ? (
+            <img
+              src={product.image.startsWith('http') ? product.image : `${baseUrl}${product.image}`}
+              alt={product.title}
+              className="w-20 h-20 object-contain rounded"
+            />
+          ) : (
+            <span className="text-gray-400 italic">No image</span>
+          )}
               </td>
             </tr>
           ))}
@@ -137,35 +139,10 @@ const Products = () => {
   );
 };
 
-// const AddProduct = () => {
-//   return (
-//     <div className="bg-white shadow-md p-4 rounded-lg">
-//       <h2 className="text-2xl font-semibold text-gray-800">Add Product</h2>
-//       <form className="mt-4">
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Product Name</label>
-//           <input type="text" className="w-full p-2 border rounded-md mt-2" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Category</label>
-//           <input type="text" className="w-full p-2 border rounded-md mt-2" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Price</label>
-//           <input type="number" className="w-full p-2 border rounded-md mt-2" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Stock</label>
-//           <input type="number" className="w-full p-2 border rounded-md mt-2" />
-//         </div>
-//         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">Add Product</button>
-//       </form>
-//     </div>
-//   );
-// };
 
 
 const AddProduct = () => {
+  const fileInputRef = useRef(null);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
@@ -188,17 +165,24 @@ const AddProduct = () => {
     formData.append('price', price);
     formData.append('tags', tags);
     formData.append('detail', detail);
-    formData.append('stock',stock);
+    formData.append('stock', stock);
     // formData.append('seller', sellerId); // ✅ Required field
-    if (image) {
-      formData.append('image', image);
+    // if (image) {
+    //   formData.append('image', image);
+    // }
+    if (image.length > 0) {
+  formData.append('image', image[0]); // main Product.image
+}
+    for (let i = 0; i < image.length; i++) {
+      formData.append('product_imgs', image[i]); // extra ProductImage[]
     }
 
+  let access = localStorage.getItem('access');
     try {
-      let token = localStorage.getItem('token');
+      
       const response = await axios.post('http://127.0.0.1:8000/api/seller/products/', formData, {
         headers: {
-           Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -208,12 +192,55 @@ const AddProduct = () => {
       setTitle('');
       setCategory('');
       setPrice('');
+      setStock('');
       setTags('');
       setDetail('');
       setImage(null);
+      if (fileInputRef.current) {
+  fileInputRef.current.value = ''; // ✅ Clears the actual file input in the DOM
+}
     } catch (error) {
+      // If token expired → refresh and retry
+    if (error.response && error.response.status === 401) {
+      console.log('Access token expired — trying refresh...');
+      const newAccess = await refresh();
+
+      if (newAccess) {
+        // ✅ Try again with new access token
+        try {
+          const retryResponse = await axios.post('http://127.0.0.1:8000/api/seller/products/', formData, {
+            headers: {
+              Authorization: `Bearer ${newAccess}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          console.log(retryResponse.data);
+          setMessage('Product added successfully!');
+          setTitle('');
+          setCategory('');
+          setPrice('');
+          setStock('');
+          setTags('');
+          setDetail('');
+          setImage(null);
+          if (fileInputRef.current) {
+  fileInputRef.current.value = ''; // ✅ Clears the actual file input in the DOM
+}
+
+        } catch (retryError) {
+          console.error(retryError.response || retryError);
+          setMessage('Failed to add product after refreshing token.');
+        }
+
+      } else {
+        console.error('Could not refresh token.');
+        setMessage('Session expired. Please log in again.');
+      }
+    } else {
       console.error(error.response || error);
       setMessage('Failed to add product.');
+    }
     }
   };
 
@@ -289,7 +316,7 @@ const AddProduct = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700">Image</label>
-          <input type="file" onChange={(e) => setImage(e.target.files[0])}
+          <input type="file" multiple ref={fileInputRef} onChange={(e) => setImage(e.target.files)}
             className="w-full p-2 border rounded-md mt-2" />
         </div>
 

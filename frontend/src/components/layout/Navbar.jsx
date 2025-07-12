@@ -14,8 +14,8 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Use correct key
-    setIsAuthenticated(!!token);
+    const access = localStorage.getItem("access"); // Use correct key
+    setIsAuthenticated(!!access);
   }, []);
 
 
@@ -53,7 +53,8 @@ const Navbar = () => {
               <a
                 href="#"
                 onClick={() => {
-                  localStorage.removeItem("token");
+                  localStorage.removeItem("access");
+                  localStorage.removeItem("refresh")
                   localStorage.removeItem("role");
                   setIsAuthenticated(false);
                   window.location.href = "/login";

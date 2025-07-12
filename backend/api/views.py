@@ -11,7 +11,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Customer, Seller
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import IsSeller
 
@@ -112,7 +111,7 @@ def user_login(request):
         msg = {
             'bool' : True,
             'username': user.username,
-            'token': str(refresh.access_token),
+            'access': str(refresh.access_token),
             'refresh': str(refresh)
         }
     else:
@@ -248,17 +247,10 @@ class SellerProductList(generics.ListCreateAPIView):
             raise PermissionDenied("User is not a seller.")
         serializer.save(seller=user.seller)
 
-
-
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        if hasattr(user, 'seller'):
-            token['seller_id'] = user.seller.id
-        elif hasattr(user, 'customer'):
-            token['customer_id'] = user.customer.id
-        return token
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
 class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
+    serializer_class = serializers.CustomTokenObtainPairSerializer

@@ -1,5 +1,6 @@
 import React from "react";
 import logo from '../../assets/react.svg';
+import SingleProduct from "../product/SingleProduct";
 
 const RecentlyViewed = ({ recentlyViewed, theme }) => {
   return (
@@ -10,11 +11,11 @@ const RecentlyViewed = ({ recentlyViewed, theme }) => {
           <p>No products viewed yet.</p>
         ) : (
           recentlyViewed.map((product) => (
-            <div key={product.id} className={`p-4 rounded shadow-md`}>
-              <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-2" />
-              <h3 className="text-lg font-semibold">{product.title}</h3>
-              <p>₹{product.price}</p>
-            </div>
+            <SingleProduct
+              key={product.id}
+              product={product}
+              onViewProduct={() => console.log("Recently viewed clicked:", product)}
+            />
           ))
         )}
       </div>
